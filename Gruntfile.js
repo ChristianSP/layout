@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-pug');
+    grunt.loadNpmTasks('grunt-browser-sync');
 
     grunt.initConfig({
         clean: [
@@ -61,6 +62,21 @@ module.exports = function(grunt) {
                 tasks: ['reload']
             }
         },
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src : [
+                        'build/*.html',
+                        'build/css/*.css',
+                        'build/js/*.js',
+                        ]
+                },
+                options: {
+                    watchTask: true,
+                    server: './build'
+                }
+            }
+        },
         uglify: {
             js: {
                 files: {
@@ -92,7 +108,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['clean','concat','sass','pug','watch']);
+    grunt.registerTask('default', ['clean','concat','sass','pug','browserSync','watch']);
     grunt.registerTask('reload', ['clean','concat','sass','pug']);
     grunt.registerTask('prod', ['clean','concat','sass','uglify','cssmin','pug']);
 }
